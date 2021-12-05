@@ -10,6 +10,8 @@ public class Item : MonoBehaviour
     public string myBiomeName = "";
     public int myMarkerIndex = -1;
 
+    Head headObject {  get { return GameObject.Find("Head"); } }
+
     public virtual void OnHandCollide()
     {
         Debug.Log("itemHandCol");

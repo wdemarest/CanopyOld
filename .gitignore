@@ -72,4 +72,5 @@ crashlytics-build.properties
 
 /Assets/Oculus/*
 /Assets/OculusGood/*
+/Assets/_*
 /ArtSource/*

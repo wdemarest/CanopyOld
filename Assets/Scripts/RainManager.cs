@@ -59,12 +59,17 @@ public class RainManager : Periodic
 
     [SerializeField] AudioSource thunder;
 
-    void PeriodicUpdate()
+    public override void PeriodicUpdate()
     {
-        if (timer >= interval - thunderWarningTime && !thundered)
+        if (timer >= interval - thunderWarningTime)
         {
-            thundered = true;
-            thunder.Play();
+            float overcast = 1 - Mathf.Max(0, Mathf.Min(1, (interval - timer) / thunderWarningTime));
+            //Debug.Log(overcast);
+            GameObject.Find("Head").GetComponent<Head>().SetOvercast(overcast);
+            if (!thundered) {
+                thundered = true;
+                thunder.Play();
+            }
         }
     }
 

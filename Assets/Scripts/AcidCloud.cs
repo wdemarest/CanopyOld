@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AcidCloud : MonoBehaviour
+public class AcidCloud : Item
 {
     float speed = 5.0f;
     float diameterMin = 30.0f;
@@ -13,8 +13,6 @@ public class AcidCloud : MonoBehaviour
     float easeTime = 10.0f;
     public float zDestroyOffset = 100.0f;
 
-    GameObject headObject;
-
     float damageTimer = 0;
     float damageInterval = 1;
     [SerializeField] AudioSource fogSoundLoop;
@@ -22,7 +20,6 @@ public class AcidCloud : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        headObject = GameObject.Find("Head");
         diameterGoal = Random.Range(diameterMin, diameterMin+ diameterRange);
         diameter = 0;
         GetComponent<Transform>().localScale = new Vector3(diameter, diameter, diameter);

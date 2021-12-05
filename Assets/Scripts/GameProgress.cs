@@ -17,7 +17,6 @@ static public class DevEnv
 
 public class GameProgress : MonoBehaviour
 {
-    
     [SerializeField] GameObject FruitPrefab;
     [SerializeField] GameObject MinePrefab;
     [SerializeField] GameObject TurretPrefab;
@@ -32,46 +31,6 @@ public class GameProgress : MonoBehaviour
 
     Dictionary<string, GameObject> prefabDict =
         new Dictionary<string, GameObject>();
-   
-
-    public class Stage
-    {
-        public int costToAdvance;
-        public string biomeName;
-        public Dictionary<string, int[]> spawn;
-        public float rainInterval;
-        public float acidCloudInterval;
-        public float hunterInterval;
-        public Color vaseColor;
-
-        public Stage(
-            int costToAdvance,
-            string biomeName,
-            Dictionary<string, int[]> spawn,
-            float rainInterval,
-            float acidCloudInterval,
-            float hunterInterval,
-            Color vaseColor
-        )
-        {
-            Debug.Assert(biomeName == "" || GameObject.Find(biomeName) != null);
-            this.costToAdvance = costToAdvance;
-            this.biomeName = biomeName;
-            this.spawn = spawn;
-            this.rainInterval = rainInterval;
-            this.acidCloudInterval = acidCloudInterval;
-            this.hunterInterval = hunterInterval;
-            this.vaseColor = vaseColor;
-        }
-        public GameObject biomeObject
-        {
-            get { return biomeName=="" ? null : GameObject.Find(biomeName); }
-        }
-        public Biome biome
-        {
-            get { return biomeName=="" ? null : biomeObject.GetComponent<Biome>(); }
-        }
-    }
    
     [SerializeField] public List<Stage> stageList;
 
@@ -93,9 +52,10 @@ public class GameProgress : MonoBehaviour
                 {
                     ["ForestBiome"] = new int[] { 50 * t, 4 * t, 4 * t }
                 },
-                30, //120,
-                30, //220,
-                30, //190,
+                rainInterval:300, //120,
+                acidCloudInterval:300, //220,
+                hunterInterval:300, //190,
+                carrierInterval:10, // carrier
                 new Color(221, 160, 221, 255)    // purple
             ));
         }
@@ -105,9 +65,10 @@ public class GameProgress : MonoBehaviour
                 0,
                 "",
                 null,
-                0,
-                0,
-                0,
+                rainInterval: 0,
+                acidCloudInterval: 0,
+                hunterInterval: 0,
+                carrierInterval: 0,
                 Color.green
             ));
         }
@@ -118,9 +79,10 @@ public class GameProgress : MonoBehaviour
             {
                 ["ForestBiome"] = new int[] { 50 * t, 0, 0 }
             },
-            180,
-            0,
-            0,
+            rainInterval: 180,
+            acidCloudInterval: 0,
+            hunterInterval: 0,
+            carrierInterval: 0,
             Color.black
         ));
         stageList.Add(new Stage(
@@ -131,9 +93,10 @@ public class GameProgress : MonoBehaviour
                 ["ForestBiome"] = new int[] { 50 * t, 10 * t, 0 },
                 ["CavernBiome"] = new int[] { 50, 10, 0 }
             },
-            180,
-            0,
-            0,
+            rainInterval: 180,
+            acidCloudInterval: 0,
+            hunterInterval: 0,
+            carrierInterval: 0,
             Color.gray
         ));
         stageList.Add(new Stage(
@@ -145,9 +108,10 @@ public class GameProgress : MonoBehaviour
                 ["CavernBiome"] = new int[] { 50, 10, 10 },
                 ["MushroomBiome"] = new int[] { 50, 10, 30 }
             },
-            240,
-            90,
-            0,
+            rainInterval: 240,
+            acidCloudInterval: 90,
+            hunterInterval: 0,
+            carrierInterval: 0,
             Color.cyan
         ));
         stageList.Add(new Stage(
@@ -160,9 +124,10 @@ public class GameProgress : MonoBehaviour
                 ["MushroomBiome"] = new int[] { 50, 10, 30 },
                 ["FloatingBiome"] = new int[] { 50, 10, 4 }
             },
-            240,
-            180,
-            180,
+            rainInterval: 240,
+            acidCloudInterval: 180,
+            hunterInterval: 180,
+            carrierInterval: 0,
             Color.white
         ));
         stageList.Add(new Stage(
@@ -176,9 +141,10 @@ public class GameProgress : MonoBehaviour
                 ["FloatingBiome"] = new int[] { 50, 10, 4 },
                 ["TwistedBiome"] = new int[] { 15, 0, 4 }
             },
-            240,
-            180,
-            180,
+            rainInterval: 240,
+            acidCloudInterval: 180,
+            hunterInterval: 180,
+            carrierInterval: 0,
             Color.white
         ));
 

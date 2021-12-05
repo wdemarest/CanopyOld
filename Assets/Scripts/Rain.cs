@@ -50,10 +50,12 @@ public class Rain : MonoBehaviour
         if(isFading && rainIntensity > 0)
         {
             rainIntensity = Mathf.Max( 0, rainIntensity - (1/fadeDuration) * Time.deltaTime );
+            GameObject.Find("Head").GetComponent<Head>().SetOvercast(rainIntensity);
         }
 
-        if( timer > rainDuration )
+        if ( timer > rainDuration )
         {
+            GameObject.Find("Head").GetComponent<Head>().SetOvercast(0);
             Destroy(gameObject);
             return;
         }
@@ -76,7 +78,6 @@ public class Rain : MonoBehaviour
             }
             else
             {
-                Debug.Log("Rain reset");
                 damageTimer = 0;
             }
         }

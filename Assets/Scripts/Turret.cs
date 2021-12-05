@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Turret : Item
 {
-    GameObject Head;
     [SerializeField] GameObject Rocket;
     [SerializeField] GameObject DieParticles;
     [SerializeField] Transform EyestalkT;
@@ -30,7 +29,6 @@ public class Turret : Item
     // Start is called before the first frame update
     void Start()
     {
-        Head = GameObject.Find("Head");
         fireDelayRemaining = fireDelay;
         points = pointValue;
         
@@ -62,7 +60,7 @@ public class Turret : Item
     // Update is called once per frame
     void Update()
     {
-        playerPos = Head.GetComponent<Transform>().position;
+        playerPos = headObject.GetComponent<Transform>().position;
         playerPosAngle = TargetAngle(playerPos);
 
         bool playerInSight = !Physics.Raycast(transform.position, playerPosAngle, playerPosAngle.magnitude, LayerMask.GetMask("GrabbableTerrain"));

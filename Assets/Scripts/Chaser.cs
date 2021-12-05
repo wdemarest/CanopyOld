@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Chaser : Item
 {
-    [SerializeField] GameObject Target;
     [SerializeField] GameObject Fins;
     [SerializeField] GameObject Light;
     [SerializeField] GameObject DieParticles;
@@ -20,11 +19,19 @@ public class Chaser : Item
     public bool active = false;
     [SerializeField] AudioSource takeDamage;
 
+    public GameObject target {  get { return headObject; } }
+
     // Start is called before the first frame update
     void Start()
     {
-        Target = GameObject.Find("Head");
         speed = minSpeed + (Random.value * (maxSpeed - minSpeed));
+    }
+
+    Chaser Init()
+    {
+        Vector3 position = headObject.GetComponent<Transform>().position;
+        position.x -= 50.0f;
+        return this;
     }
 
     // Update is called once per frame
@@ -33,7 +40,7 @@ public class Chaser : Item
         Fins.SetActive(active);
         Light.SetActive(active);
 
-        Vector3 deltaToTarget = Target.GetComponent<Transform>().position - transform.position;
+        Vector3 deltaToTarget = target.GetComponent<Transform>().position - transform.position;
 
         if (deltaToTarget.magnitude < activateRange && !active)
         {
@@ -54,9 +61,9 @@ public class Chaser : Item
 
             Fins.GetComponent<Transform>().Rotate(0.0f, 0.0f, -720.0f * Time.deltaTime, Space.Self);
 
-            if (Vector3.Distance(Target.transform.position, transform.position) < damageDist)
+            if (Vector3.Distance(target.transform.position, transform.position) < damageDist)
             {
-                Target.GetComponent<Head>().takeDamage(damage);
+                target.GetComponent<Head>().takeDamage(damage);
                 Detonate();
             }
         }

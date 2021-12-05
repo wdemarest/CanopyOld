@@ -36,7 +36,7 @@ public class Mine : Item
     // Update is called once per frame
     void Update()
     {
-        Vector3 playerPos = GameObject.Find("Head").GetComponent<Transform>().position;
+        Vector3 playerPos = headObject.GetComponent<Transform>().position;
         Vector3 playerPosAngle = TargetAngle(playerPos);
         float playerDist = playerPosAngle.magnitude;
 
@@ -65,7 +65,7 @@ public class Mine : Item
                 boomObject.GetComponent<Transform>().localScale = new Vector3(damageRange, damageRange, damageRange);
                 fireDelayRemaining = fireDelay;
 
-                if (Vector3.Distance(GameObject.Find("Head").GetComponent<Transform>().position, transform.position) < damageRange)
+                if (Vector3.Distance(headObject.GetComponent<Transform>().position, transform.position) < damageRange)
                 {
                     GameObject.Find("Head").GetComponent<Head>().takeDamage(damage);
                 }

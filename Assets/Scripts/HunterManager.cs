@@ -8,8 +8,6 @@ public class HunterManager : Periodic
 
     public override void OnTimerComplete()
     {
-        Vector3 position = GameObject.Find("Head").GetComponent<Transform>().position;
-        position.x -= 50.0f;
-        Instantiate(hunterPrefab, position, Quaternion.Euler(0, 0, 0));
+        Instantiate(hunterPrefab).Init();
     }
 }

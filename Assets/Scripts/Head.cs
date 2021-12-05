@@ -18,6 +18,7 @@ public class Head : MonoBehaviour
     public bool thrustRanOut = false;
     public bool usingThrust;
     public bool inCloud = false;
+    public float overcast = 0;
     public float abyssY = 40f;
     [SerializeField] float abyssDamage = 15f;
     [SerializeField] float health;
@@ -114,28 +115,7 @@ public class Head : MonoBehaviour
 
         usingThrust = false;
 
-        
-
-        //FogLightness
-        float fogLightness = (GetComponent<Transform>().position.y - 60) * (160f / 500f);
-        fogLightness += 60;
-        fogLightness /= 220;
-
-        Color fogColor = new Color(fogLightness, fogLightness, fogLightness, 1);
-        RenderSettings.fogColor = fogColor;
-        RenderSettings.fogDensity = 0.02f;
-        if (inCloud)
-        {
-            RenderSettings.fogColor = Color.red;
-            RenderSettings.fogDensity = 0.08f;
-            inCloud = false;
-            acidCloudCrackle.UnPause();
-        }
-        else
-        {
-            acidCloudCrackle.Pause();
-        }
-
+        ManageFog();
 
         float volMin = 0.05f;
         float volMax = 0.15f;
@@ -145,6 +125,45 @@ public class Head : MonoBehaviour
         velWind.pitch = 1 + (velWindVol / 2);
 
         CenterHorizonToHead();
+    }
+
+    public void SetOvercast(float overcast)
+    {
+        this.overcast = overcast;
+    }
+
+    void ManageFog()
+    {
+        float yBottom = 70;
+        float yTop = 135;
+        float pct = Mathf.Max(0, Mathf.Min(1, (GetComponent<Transform>().position.y - yBottom) / (yTop - yBottom)));
+        float darknessWhenOvercast = 0.50f;
+        pct = pct - (pct * darknessWhenOvercast * overcast);
+
+        GameObject.Find("Sun").GetComponent<Sun>().SetIntensity(pct);
+
+        float fogAbyss = 40;
+        float fogTreetop = 180;
+        float lightness = ( fogAbyss + (fogTreetop-fogAbyss) * pct ) / 255;
+
+        float denAbyss = 0.10f;
+        float denTreetop = 0.02f;
+        float density = denAbyss + (denTreetop - denAbyss) * pct;
+
+        Color fogColor = new Color(lightness, lightness, lightness, 1);
+        RenderSettings.fogColor = fogColor;
+        RenderSettings.fogDensity = density; // 0.02f;
+        if (inCloud)
+        {
+            RenderSettings.fogColor = new Color(1.0f, lightness*0.8f, lightness * 0.8f, 1);
+            RenderSettings.fogDensity = 0.12f;
+            inCloud = false;
+            acidCloudCrackle.UnPause();
+        }
+        else
+        {
+            acidCloudCrackle.Pause();
+        }
     }
 
     void CenterHorizonToHead()

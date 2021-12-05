@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Sun : MonoBehaviour
 {
-    Light SunLight;
+    Light sunLight;
     [SerializeField] Light MoonLight;
     [SerializeField] float time = 0;
     [SerializeField] float cycleDur = 10000;
@@ -15,7 +15,8 @@ public class Sun : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SunLight = GetComponent<Light>();
+        sunLight = GetComponent<Light>();
+        Debug.Assert(sunLight != null);
         T = GetComponent<Transform>();
     }
 
@@ -24,9 +25,15 @@ public class Sun : MonoBehaviour
         return Mathf.Abs(time - targetTime);
     }
 
+    public void SetIntensity(float intensity)
+    {
+        sunLight.intensity = intensity;
+    }
+
     // Update is called once per frame
     void Update()
     {
+        return;
         //Time Pass
         //time += Time.deltaTime/cycleDur;
 
@@ -50,12 +57,12 @@ public class Sun : MonoBehaviour
         //Night and Day
         if (time <= 0.5)
         {
-            //SunLight.enabled = true;
+            //sunLight.enabled = true;
             MoonLight.enabled = false;
         }
         else
         {
-            //SunLight.enabled = false;
+            //sunLight.enabled = false;
             MoonLight.enabled = true;
             twilight = 1;
         }
@@ -64,10 +71,10 @@ public class Sun : MonoBehaviour
         float SunIntensity = (DistToTime(0.75f) - 0.20f) * 20;
         if (SunIntensity > 1) { SunIntensity = 1; }
         if (SunIntensity < 0) { SunIntensity = 0; }
-        SunLight.intensity = SunIntensity;
+        sunLight.intensity = SunIntensity;
 
         //Set Temp
-        SunLight.colorTemperature = ((1 - twilight) * 4570) + 2000;
+        sunLight.colorTemperature = ((1 - twilight) * 4570) + 2000;
 
 
 
