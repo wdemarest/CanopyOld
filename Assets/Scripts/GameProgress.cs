@@ -32,7 +32,7 @@ public class GameProgress : MonoBehaviour
     Dictionary<string, GameObject> prefabDict =
         new Dictionary<string, GameObject>();
    
-    [SerializeField] public List<Stage> stageList;
+    List<Stage> stageList;
 
     void Start()
     {
@@ -47,7 +47,7 @@ public class GameProgress : MonoBehaviour
             Debug.Log("Starting on Test Level");
             stageList.Add(new Stage(
                 0,
-                "ForestBiome",
+                "MushroomBiome",
                 new Dictionary<string, int[]>()
                 {
                     ["ForestBiome"] = new int[] { 50 * t, 4 * t, 4 * t }
@@ -164,6 +164,7 @@ public class GameProgress : MonoBehaviour
 
     public void RespawnPlayer()
     {
+        GameObject.Find("EnvironmentManager").GetComponent<EnvironmentManager>().ClearBiomeTracking();
         GameObject.Find("Head").GetComponent<Head>().Respawn(PlayerStartPosition.GetComponent<Transform>().position);
     }
 
@@ -185,6 +186,11 @@ public class GameProgress : MonoBehaviour
 
     public void BiomeSetStage(Stage stage)
     {
+        if (stage.biome != null)
+        {
+            stage.biome.PlayAppearSound();
+        }
+
         if (stage.spawn != null)
         {
             Debug.Log("Spawning stage "+stage);
@@ -235,7 +241,6 @@ public class GameProgress : MonoBehaviour
                 Debug.Log("Instant rez " + stage.biome.name);
                 stage.biome.animations.speed = 1000;
             }
-            GameObject.Find("Head").GetComponent<Head>().BiomeAppearSound();
         }
     }
 
@@ -249,7 +254,12 @@ public class GameProgress : MonoBehaviour
         }
         Vase vase = GameObject.Find("Vase").GetComponent<Vase>();
         Debug.Assert(vase != null);
-        if (!vase.IsAnimatingScore && gameStage < stageList.Count - 1 && depositedScore >= stageList[gameStage + 1].costToAdvance)
+        Debug.Assert(stageList != null);
+        Debug.Assert(gameStage >= 0 && gameStage < stageList.Count);
+        if (
+            !vase.IsAnimatingScore &&
+            gameStage < stageList.Count - 1 &&
+            depositedScore >= stageList[gameStage + 1].costToAdvance)
         {
             AdvanceGameStage();
         }

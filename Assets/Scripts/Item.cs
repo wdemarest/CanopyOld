@@ -10,7 +10,8 @@ public class Item : MonoBehaviour
     public string myBiomeName = "";
     public int myMarkerIndex = -1;
 
-    Head headObject {  get { return GameObject.Find("Head"); } }
+    public GameObject headObject { get { return GameObject.Find("Head"); } }
+    public Head head { get { return headObject.GetComponent<Head>(); } }
 
     public virtual void OnHandCollide()
     {
@@ -19,7 +20,7 @@ public class Item : MonoBehaviour
 
     public virtual void OnDeath()
     {
-        bool OK = GameObject.Find("GameProgress").GetComponent<GameProgress>().OnItemDeath(this);
+        GameObject.Find("GameProgress").GetComponent<GameProgress>().OnItemDeath(this);
         Destroy(gameObject);
     }
 }

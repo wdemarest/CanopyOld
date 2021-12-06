@@ -8,6 +8,6 @@ public class CarrierManager : Periodic
 
     public override void OnTimerComplete()
     {
-        Instantiate(carrierPrefab).Init(10.0f,0.0f);
+        Instantiate(carrierPrefab).GetComponent<Carrier>().Init(10.0f,0.0f);
     }
 }

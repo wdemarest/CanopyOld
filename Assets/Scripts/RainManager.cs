@@ -65,7 +65,7 @@ public class RainManager : Periodic
         {
             float overcast = 1 - Mathf.Max(0, Mathf.Min(1, (interval - timer) / thunderWarningTime));
             //Debug.Log(overcast);
-            GameObject.Find("Head").GetComponent<Head>().SetOvercast(overcast);
+            GameObject.Find("EnvironmentManager").GetComponent<EnvironmentManager>().SetOvercast(overcast);
             if (!thundered) {
                 thundered = true;
                 thunder.Play();

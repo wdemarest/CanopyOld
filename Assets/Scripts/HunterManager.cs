@@ -8,6 +8,6 @@ public class HunterManager : Periodic
 
     public override void OnTimerComplete()
     {
-        Instantiate(hunterPrefab).Init();
+        Instantiate(hunterPrefab).GetComponent<Hunter>().Init();
     }
 }

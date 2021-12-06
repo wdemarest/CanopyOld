@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Rain : MonoBehaviour
+public class Rain : Item
 {
     [SerializeField] GameObject RainParticles;
     ParticleSystem.EmissionModule RainParticleEmission;
@@ -50,19 +50,18 @@ public class Rain : MonoBehaviour
         if(isFading && rainIntensity > 0)
         {
             rainIntensity = Mathf.Max( 0, rainIntensity - (1/fadeDuration) * Time.deltaTime );
-            GameObject.Find("Head").GetComponent<Head>().SetOvercast(rainIntensity);
+            GameObject.Find("EnvironmentManager").GetComponent<EnvironmentManager>().SetOvercast(rainIntensity);
         }
 
         if ( timer > rainDuration )
         {
-            GameObject.Find("Head").GetComponent<Head>().SetOvercast(0);
+            GameObject.Find("EnvironmentManager").GetComponent<EnvironmentManager>().SetOvercast(0);
             Destroy(gameObject);
             return;
         }
 
         if (!isFading)
         {
-            GameObject headObject = GameObject.Find("Head");
             RainParticles.transform.position = headObject.transform.position + new Vector3(0, rainHeight, 0);
             
             bool touchingPlayer = !Physics.Raycast(headObject.transform.position, new Vector3(0, 1, 0), rainHeight, LayerMask.GetMask("GrabbableTerrain"));
@@ -72,7 +71,7 @@ public class Rain : MonoBehaviour
                 damageTimer += Time.deltaTime;
                 if (damageTimer >= damageInterval)
                 {
-                    headObject.GetComponent<Head>().takeDamage(damageAmount);
+                    head.takeDamage(damageAmount);
                     damageTimer = 0;
                 }
             }

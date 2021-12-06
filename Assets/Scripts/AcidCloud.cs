@@ -54,11 +54,11 @@ public class AcidCloud : Item
         {
             if (damageTimer >= damageInterval)
             {
-                headObject.GetComponent<Head>().takeDamage(1);
+                head.takeDamage(1);
                 damageTimer -= damageInterval;
             }
             damageTimer += Time.deltaTime;
-            headObject.GetComponent<Head>().inCloud = true;
+            head.inCloud = true;
             fogSoundLoop.spatialBlend = 0;
         }
         else

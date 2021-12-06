@@ -18,7 +18,6 @@ public class Head : MonoBehaviour
     public bool thrustRanOut = false;
     public bool usingThrust;
     public bool inCloud = false;
-    public float overcast = 0;
     public float abyssY = 40f;
     [SerializeField] float abyssDamage = 15f;
     [SerializeField] float health;
@@ -26,6 +25,11 @@ public class Head : MonoBehaviour
     [SerializeField] public int maxHeldScore = 6;
     [SerializeField] float healthMax = 50;
     [SerializeField] TMP_Text Health;
+
+    public Biome closestValidBiome = null;
+    public float closestValidBiomeDist2 = 0;
+    public float closestValidBiomeRadius = 0;
+
     public float moveMaxSpeed = 8.5f;
     [SerializeField] PostProcessVolume damageFX;
     float damageFXDurRemaining;
@@ -38,8 +42,7 @@ public class Head : MonoBehaviour
     [SerializeField] AudioSource headBonk;
     [SerializeField] AudioSource velWind;
     [SerializeField] AudioSource playerDeath;
-    [SerializeField] AudioSource biomeAppear;
-    [SerializeField] AudioSource acidCloudCrackle;
+    [SerializeField] public AudioSource acidCloudCrackle;
     float velWindVol;
 
     SphereCollider SC;
@@ -82,8 +85,8 @@ public class Head : MonoBehaviour
         if(health <= 0)
         {
             Debug.Log("DeathRespawn");
-            playerDeath.Play();
             gameProgress.RespawnPlayer();
+            GameObject.Find("MusicManager").GetComponent<MusicManager>().PlayOverlay(playerDeath);
         }
 
         HeldScore.text = heldScore + "/" + maxHeldScore;
@@ -115,8 +118,6 @@ public class Head : MonoBehaviour
 
         usingThrust = false;
 
-        ManageFog();
-
         float volMin = 0.05f;
         float volMax = 0.15f;
         velWindVol = volMin + (volMax-volMin) * ((PlayerRB.velocity.magnitude / moveMaxSpeed));
@@ -127,42 +128,14 @@ public class Head : MonoBehaviour
         CenterHorizonToHead();
     }
 
-    public void SetOvercast(float overcast)
+    public float depthPercent
     {
-        this.overcast = overcast;
-    }
-
-    void ManageFog()
-    {
-        float yBottom = 70;
-        float yTop = 135;
-        float pct = Mathf.Max(0, Mathf.Min(1, (GetComponent<Transform>().position.y - yBottom) / (yTop - yBottom)));
-        float darknessWhenOvercast = 0.50f;
-        pct = pct - (pct * darknessWhenOvercast * overcast);
-
-        GameObject.Find("Sun").GetComponent<Sun>().SetIntensity(pct);
-
-        float fogAbyss = 40;
-        float fogTreetop = 180;
-        float lightness = ( fogAbyss + (fogTreetop-fogAbyss) * pct ) / 255;
-
-        float denAbyss = 0.10f;
-        float denTreetop = 0.02f;
-        float density = denAbyss + (denTreetop - denAbyss) * pct;
-
-        Color fogColor = new Color(lightness, lightness, lightness, 1);
-        RenderSettings.fogColor = fogColor;
-        RenderSettings.fogDensity = density; // 0.02f;
-        if (inCloud)
+        get
         {
-            RenderSettings.fogColor = new Color(1.0f, lightness*0.8f, lightness * 0.8f, 1);
-            RenderSettings.fogDensity = 0.12f;
-            inCloud = false;
-            acidCloudCrackle.UnPause();
-        }
-        else
-        {
-            acidCloudCrackle.Pause();
+            float yBottom = 70;
+            float yTop = 135;
+            float pct = Mathf.Max(0, Mathf.Min(1, (GetComponent<Transform>().position.y - yBottom) / (yTop - yBottom)));
+            return pct;
         }
     }
 
@@ -173,11 +146,6 @@ public class Head : MonoBehaviour
         horizonTransform.position = transform.position + new Vector3(terrainHorOffset, horizonYOffset, terrainHorOffset);
         horizonTransform.position = new Vector3(horizonTransform.position.x, Mathf.Max(horizonTransform.position.y, 90 + horizonYOffset), horizonTransform.position.z);
         abyssTransform.position = new Vector3(transform.position.x + terrainHorOffset, 0, transform.position.z + terrainHorOffset);
-    }
-
-    public void BiomeAppearSound()
-    {
-        biomeAppear.Play();
     }
 
     public void GetPoint(int points)
@@ -243,4 +211,5 @@ public class Head : MonoBehaviour
             headBonk.Play();
         }
     }
+
 }

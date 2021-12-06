@@ -27,6 +27,6 @@ public class AmbientSound : MonoBehaviour
 
     void SelectAmbientMusic()
     {
-        music.Play();
+        //music.Play();
     }
 }

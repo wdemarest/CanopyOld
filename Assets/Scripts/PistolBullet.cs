@@ -28,10 +28,10 @@ public class PistolBullet : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<Chaser>().active)
+        if (other.GetComponent<Hunter>() != null && other.GetComponent<Hunter>().active)
         {
             Debug.Log("Hit");
-            other.GetComponent<Chaser>().TakeDamage();
+            other.GetComponent<Hunter>().TakeDamage();
             Debug.Log("Chaserdamage");
             Instantiate(Explosion, transform.position, transform.rotation);
             Destroy(gameObject);

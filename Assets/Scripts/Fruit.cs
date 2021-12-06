@@ -49,18 +49,4 @@ public class Fruit : Item
         //Debug.Log("touch");
         OnDeath();
     }
-
-    /*void OnCollisionStay(Collision collision)
-    {
-        if (collision.collider.gameObject.layer != LayerMask.NameToLayer("Player"))
-        {
-            if (positioning == true)
-            {
-                transform.localScale = new Vector3(3, 3, 3);
-                positioning = false;
-                GetComponent<LODGroup>().ForceLOD(-1);
-                //Debug.Log("Landed");
-            }
-        }
-    }*/
 }

@@ -17,15 +17,14 @@ public class Carrier : Item
         soundTravel.Play();
     }
 
-    Carrier Init(float distForward, float distRight)
+    public void Init(float distForward, float distRight)
     {
         Transform pt = headObject.GetComponent<Transform>();
         transform.position = pt.position;
         transform.rotation = pt.rotation;
         transform.localScale = pt.localScale;
-        transform.position += pt.forward * distForward + pt.right(distRight);
+        transform.position += pt.forward * distForward; // + pt.right * distRight;
         transform.Rotate(0.0f, -90.0f, 0.0f, Space.World);
-        return this;
     }
 
     void Update()

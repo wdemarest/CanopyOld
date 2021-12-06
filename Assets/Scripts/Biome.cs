@@ -13,6 +13,19 @@ public class Biome : MonoBehaviour
     int markerIndex = 0;
     System.Random rng = new System.Random();
 
+    [SerializeField] float ambientFalloff = 20;
+    public float ambientPercent = 0;
+    public float proximity = 0;
+
+    [SerializeField] public Color fogAbyss = new Color(0.15f,0.15f,0.15f);
+    [SerializeField] public float densityAbyss = 0.10f;
+    [SerializeField] public Color fogTop = new Color(0.70f, 0.70f, 0.70f);
+    [SerializeField] public float densityTop = 0.01f;
+
+    [SerializeField] AudioSource music;
+    [SerializeField] AudioSource ambient;
+    [SerializeField] AudioSource appearSound;
+
     public Animator animations;
 
     void Start()
@@ -25,8 +38,51 @@ public class Biome : MonoBehaviour
 
     void Update()
     {
-        
+        UpdateAmbient();
     }
+
+    void UpdateAmbient()
+    {
+        if( ambient.isPlaying && ambientPercent <= 0 )
+        {
+            ambient.Stop();
+        }
+        ambient.volume = ambientPercent;
+        if( !ambient.isPlaying && ambientPercent > 0 )
+        {
+            ambient.Play();
+        }
+        if(ambient.isPlaying)
+        {
+            //Debug.Log("Ambient " + name + "=" + ambientPercent);
+        }
+        ambientPercent = 0;
+    }
+
+    public void Log(string s)
+    {
+        Debug.Log(s);
+    }
+
+    MusicManager musicManager { get { return GameObject.Find("MusicManager").GetComponent<MusicManager>(); } }
+
+    public void PlayAppearSound()
+    {
+        //musicManager.PlayOverlay(appearSound);
+    }
+
+    public void OnPlayerEnter()
+    {
+        Debug.Log("player enter " + name);
+        musicManager.PlayMusic(music);
+    }
+
+    public void OnPlayerExit()
+    {
+        Debug.Log("player exit " + name);
+        musicManager.FadeMusic();
+    }
+
 
     public void MarkerClear(int index)
     {
@@ -186,6 +242,12 @@ public class Biome : MonoBehaviour
         Debug.Log(s);
     }
 
+    public void ReportDistance(float dist, float radius)
+    {
+        float outer = radius;
+        float inner = outer - ambientFalloff;
+        float pct = dist > outer ? 0.0f : dist < inner ? 1.0f : (outer - dist) / ambientFalloff;
+        proximity = pct;
+        ambientPercent = Mathf.Max(ambientPercent, pct);
+    }
 }
-
-

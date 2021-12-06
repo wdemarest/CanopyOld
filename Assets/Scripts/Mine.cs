@@ -67,7 +67,7 @@ public class Mine : Item
 
                 if (Vector3.Distance(headObject.GetComponent<Transform>().position, transform.position) < damageRange)
                 {
-                    GameObject.Find("Head").GetComponent<Head>().takeDamage(damage);
+                    headObject.GetComponent<Head>().takeDamage(damage);
                 }
             }
         }
