@@ -158,6 +158,12 @@ PlayerSettings:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: -1677742657978100976, guid: 3fb6f8d468cb8cd45955cd46271ca751, type: 2}
   - {fileID: 11400000, guid: 90977013028865b47a452c385cd33114, type: 2}
   metroInputSource: 0
@@ -201,7 +207,8 @@ PlayerSettings:
   resolutionScalingMode: 0
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
-  applicationIdentifier: {}
+  applicationIdentifier:
+    Android: com.StrogGames.Canopy
   buildNumber: {}
   AndroidBundleVersionCode: 2
   AndroidMinSdkVersion: 23
