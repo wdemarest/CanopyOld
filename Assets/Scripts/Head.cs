@@ -47,17 +47,14 @@ public class Head : MonoBehaviour
 
     SphereCollider SC;
 
-    GameProgress gameProgress
-    {
-        get { return GameObject.Find("GameProgress").GetComponent<GameProgress>(); }
-    }
+    GameProgress gameProgress { get { return GameObject.Find("GameProgress").GetComponent<GameProgress>(); } }
+    public bool inAbyss { get { return transform.position.y < abyssY; } }
 
     // Start is called before the first frame update
     void Start()
     {
         SC = GetComponent<SphereCollider>();
     }
-
 
     // Update is called once per frame
     void Update()
@@ -66,7 +63,7 @@ public class Head : MonoBehaviour
 
         PlayerRB.useGravity = !(gravGrace || levitation);
 
-        if(transform.position.y < abyssY)
+        if(inAbyss)
         {
             takeDamage(abyssDamage);
             JumpSave();
@@ -171,6 +168,7 @@ public class Head : MonoBehaviour
 
     public void Respawn(Vector3 playerPosition)
     {
+        Debug.Log("Respawn at " + playerPosition);
         LeftHand.grabOverridden = true;
         RightHand.grabOverridden = true;
         lastStablePos = playerPosition;

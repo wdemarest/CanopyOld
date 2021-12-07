@@ -12,7 +12,7 @@ static public class DevEnv
 {
     static public GameMode mode = GameMode.PLAYTEST;
     static public bool fog = true;
-    static public bool startOnTestLevel = true;
+    static public bool startOnTestLevel = false;
 }
 
 public class GameProgress : MonoBehaviour
@@ -21,13 +21,17 @@ public class GameProgress : MonoBehaviour
     [SerializeField] GameObject MinePrefab;
     [SerializeField] GameObject TurretPrefab;
 
-    [SerializeField] GameObject PlayerStartPosition;
+    [SerializeField] GameObject cinderBiomeObject;
+    [SerializeField] GameObject playerHomeStart;
+    [SerializeField] GameObject playerCinderStart;
 
     [SerializeField] int depositedScore = 0;
     private int gameStage = -1;
 
     [SerializeField] float biomeMoveTime = 5;
     [SerializeField] AnimationCurve biomeMoveSpeed;
+
+    Head head { get { return GameObject.Find("Head").GetComponent<Head>(); } }
 
     Dictionary<string, GameObject> prefabDict =
         new Dictionary<string, GameObject>();
@@ -37,6 +41,7 @@ public class GameProgress : MonoBehaviour
     void Start()
     {
         // WARNING: Setting fog on works for PC, but NOT for Quest 2
+        // Here is the fix: https://support.unity.com/hc/en-us/articles/208060696-Enabling-the-Fog-in-a-built-game-is-not-working-
         RenderSettings.fog = true; // Environment.fog;
 
         stageList = new List<Stage>();
@@ -152,6 +157,7 @@ public class GameProgress : MonoBehaviour
         prefabDict.Add("Mine", MinePrefab);
         prefabDict.Add("Turret", TurretPrefab);
 
+        head.abyssY = -100;
         RespawnPlayer();
     }
 
@@ -161,11 +167,19 @@ public class GameProgress : MonoBehaviour
         Time.fixedDeltaTime = 0.02f * Time.timeScale;
     }
     public bool IsPaused {  get { return Time.timeScale == 0.0f; } }
-
+/*
+    public GameObject FindSillyCinderGameObject()
+    {
+        Scene scene = SceneManager.GetActiveScene();
+        GameObject[] rootGameObjectList = scene.GetRootGameObjects();
+        return rootGameObjectList[0].transform.Find("CinderBiome").gameObject;
+    }
+*/
     public void RespawnPlayer()
     {
         GameObject.Find("EnvironmentManager").GetComponent<EnvironmentManager>().ClearBiomeTracking();
-        GameObject.Find("Head").GetComponent<Head>().Respawn(PlayerStartPosition.GetComponent<Transform>().position);
+        GameObject start = cinderBiomeObject!=null ? playerCinderStart : playerHomeStart;
+        head.Respawn(start.GetComponent<Transform>().position);
     }
 
     public void RestartGame()
@@ -186,11 +200,6 @@ public class GameProgress : MonoBehaviour
 
     public void BiomeSetStage(Stage stage)
     {
-        if (stage.biome != null)
-        {
-            stage.biome.PlayAppearSound();
-        }
-
         if (stage.spawn != null)
         {
             Debug.Log("Spawning stage "+stage);
@@ -213,7 +222,6 @@ public class GameProgress : MonoBehaviour
         depositedScore += points;
     }
 
-
     public void AdvanceGameStage(bool instant=false)
     {
         if(gameStage+1 >= stageList.Count)
@@ -224,6 +232,19 @@ public class GameProgress : MonoBehaviour
         gameStage++;
         Debug.Log("Stage=" + gameStage);
 
+        if (gameStage > 0)
+        {
+            GameObject.Find("Head").GetComponent<Head>().abyssY = 60;
+            if (cinderBiomeObject != null)
+            {
+                cinderBiomeObject.GetComponent<Biome>().active = false;
+                cinderBiomeObject.active = false;   // must come second!
+            }
+            if ( head.inAbyss )
+            {
+                RespawnPlayer();
+            }
+        }
         depositedScore = 0;
         Vase vase = GameObject.Find("Vase").GetComponent<Vase>();
         vase.Clear();
@@ -231,17 +252,21 @@ public class GameProgress : MonoBehaviour
         Stage stage = stageList[gameStage];
         GameObject vaseObject = GameObject.Find("Vase");
         vaseObject.GetComponent<Vase>().SetColor(stage.vaseColor);
+
         BiomeSetStage(stage);
 
         if (stage.biome != null)
         {
+            stage.biome.PlayAppearSound();
+            stage.biome.active = true;
             stage.biome.animations.SetBool("RiseBool", true);
-            if( instant )
+            if (instant)
             {
                 Debug.Log("Instant rez " + stage.biome.name);
                 stage.biome.animations.speed = 1000;
             }
         }
+
     }
 
 

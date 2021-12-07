@@ -1,0 +1,45 @@
+ManifestFileVersion: 0
+CRC: 2548755320
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 6f5cbc6a792516166b097cbfbb113591
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 3f7d0c5e0986ec71841622bcb2f9be1c
+HashAppended: 0
+ClassTypes:
+- Class: 83
+  Script: {instanceID: 0}
+Assets:
+- Assets/Sounds/pistolEquip.wav
+- Assets/Sounds/Unused/pistolShoot2.wav
+- Assets/Sounds/Music/musicForest1.wav
+- Assets/Sounds/frogLoop1.wav
+- Assets/Sounds/thrusterIgnite1.wav
+- Assets/Sounds/Unused/fogCloudCrackleLight.wav
+- Assets/_Sci-Fi Sounds/Hum and Ambience/Hum Loop 5.wav
+- Assets/Sounds/harvesterTakeDamage.wav
+- Assets/Sounds/rainClatterLoop.wav
+- Assets/Sounds/bulletHit.wav
+- Assets/Sounds/thrusterOut2.wav
+- Assets/Sounds/rocketTurretLockOn.wav
+- Assets/Sounds/grab10.wav
+- Assets/Sounds/fruitGrab.wav
+- Assets/Sounds/fruitInJar.wav
+- Assets/Sounds/forestAmbience.wav
+- Assets/Sounds/bubblePop.wav
+- Assets/Sounds/playerDeath2.wav
+- Assets/Sounds/Unused/musicCavern.wav
+- Assets/Sounds/harvesterDie.wav
+- Assets/Sounds/headBonk.wav
+- Assets/Sounds/takeDamage.wav
+- Assets/Sounds/Unused/musicMushroom.wav
+- Assets/Sounds/mineBeep.wav
+- Assets/Sounds/ambientWindLoop.wav
+- Assets/Sounds/rocketTurretAwaken.wav
+- Assets/Sounds/Music/biomeAppear.wav
+- Assets/Sounds/pistolUnequip.wav
+- Assets/Sounds/chaserAwaken.wav
+- Assets/Sounds/thunder2.wav
+Dependencies: []

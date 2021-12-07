@@ -9,7 +9,7 @@ public class Biome : MonoBehaviour
         get { return gameObject.name; }
     }
     List<GameObject> markerList;
-    bool active = false;
+    [SerializeField] public bool active = false;
     int markerIndex = 0;
     System.Random rng = new System.Random();
 
@@ -68,7 +68,7 @@ public class Biome : MonoBehaviour
 
     public void PlayAppearSound()
     {
-        //musicManager.PlayOverlay(appearSound);
+        musicManager.PlayOverlay(appearSound);
     }
 
     public void OnPlayerEnter()

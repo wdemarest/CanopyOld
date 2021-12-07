@@ -21,6 +21,8 @@ public class EnvironmentManager : MonoBehaviour
 
     Biome lastValidBiome = null;
 
+    bool firstFrame = true;
+
     public void SetOvercast(float overcast)
     {
         this.overcast = overcast;
@@ -28,7 +30,7 @@ public class EnvironmentManager : MonoBehaviour
 
     void Start()
     {
-        
+        ClearBiomeTracking();
     }
 
     void FogCalc(Biome biome, float pct, float contribution, ref Color fogColor, ref float fogDensity)
@@ -51,13 +53,14 @@ public class EnvironmentManager : MonoBehaviour
         float dist = 0;
         foreach (Biome b in biomeList.Keys)
         {
+            if (!b.active) { continue; }
             if (b.proximity > dist)
             {
                 biome = b;
                 dist = b.proximity;
             }
         }
-        Debug.Log("ProximateBiome=" + biome.name);
+        //Debug.Log("ProximateBiome=" + biome.name);
         fogTargetColor.r = 0;
         fogTargetColor.g = 0;
         fogTargetColor.b = 0;
@@ -76,7 +79,7 @@ public class EnvironmentManager : MonoBehaviour
         lerpTowards(ref fogDensity, fogTargetDensity, Mathf.Abs((fogTargetDensity - fogDensity) * rate));
         if( fogColor.r != fogTargetColor.r || fogColor.g != fogTargetColor.g || fogColor.b != fogTargetColor.b || fogDensity != fogTargetDensity )
         {
-            Debug.Log("" + fogColor + "," + fogDensity+" -> "+fogTargetColor+","+fogTargetDensity);
+            //Debug.Log("" + fogColor + "," + fogDensity+" -> "+fogTargetColor+","+fogTargetDensity);
         }
     }
 
@@ -89,6 +92,7 @@ public class EnvironmentManager : MonoBehaviour
 
         foreach (Biome biome in biomeList.Keys)
         {
+            if( !biome.active ) { continue; }
             totalProximity += biome.proximity;
             if (biome.proximity > 0)
             {
@@ -164,6 +168,8 @@ public class EnvironmentManager : MonoBehaviour
 
     public void ClearBiomeTracking()
     {
+        fogColor = Color.black;
+        fogDensity = 1;
         GameObject.Find("MusicManager").GetComponent<MusicManager>().StopAll();
         lastValidBiome = null;
         head.closestValidBiome = null;
@@ -187,6 +193,25 @@ public class EnvironmentManager : MonoBehaviour
         head.closestValidBiome = null;
     }
 
+    void ManageCinderParticles()
+    {
+        if(GameObject.Find("CinderBiome") == null )   // An inactive GameObject is excluded from Find() searches
+        {
+            return;
+        }
+        Vector3 headPos = headObject.GetComponent<Transform>().position;
+        GameObject cinderParticles = GameObject.Find("CinderParticles");
+        cinderParticles.GetComponent<Transform>().position = headPos;
+        GameObject.Find("CinderSmoke").GetComponent<Transform>().position = new Vector3(headPos.x, GameObject.Find("CinderSmoke").GetComponent<Transform>().position.y, headPos.z);
+
+        if(firstFrame )
+        {
+            cinderParticles.GetComponent<Transform>().Find("Embers").GetComponent<ParticleSystem>().Play();
+            cinderParticles.GetComponent<Transform>().Find("FallingAshes").GetComponent<ParticleSystem>().Play();
+            firstFrame = false;
+        }
+    }
+
     void Update()
     {
         UpdateBiomeProximity();
@@ -199,5 +224,6 @@ public class EnvironmentManager : MonoBehaviour
         RenderSettings.fogColor = fogColor;
         RenderSettings.fogDensity = fogDensity; // 0.02f;
 
+        ManageCinderParticles();
     }
 }

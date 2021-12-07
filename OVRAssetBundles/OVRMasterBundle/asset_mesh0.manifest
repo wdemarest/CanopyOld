@@ -1,0 +1,31 @@
+ManifestFileVersion: 0
+CRC: 984733081
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: d26f91a4b5816ce3d416460f66e95f66
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: b1c4c89ef90976e0af8e967bcb404a52
+HashAppended: 0
+ClassTypes:
+- Class: 43
+  Script: {instanceID: 0}
+Assets:
+- Assets/FloatingTree_meshes/FloatingTreeCollider_LOD0.mesh
+- Assets/CrazyTree_meshes/CrazyTree_LOD0.mesh
+- Assets/CrazyTree_meshes/CrazyTree_LOD4.mesh
+- Assets/ForestTree_meshes/MTreeLeaves1_LOD4.mesh
+- Assets/FloatingTree_meshes/Floating Tree_LOD4.mesh
+- Assets/FloatingTree_meshes/Floating Tree_LOD0.mesh
+- Assets/FloatingTree_meshes/Floating Tree_LOD3.mesh
+- Assets/ForestTree_meshes/MTreeLeaves1_LOD3.mesh
+- Assets/ForestTree_meshes/MTreeLeaves1_LOD1.mesh
+- Assets/ForestTree_meshes/MTreeLeaves1_LOD2.mesh
+- Assets/CrazyTree_meshes/CrazyTree_LOD3.mesh
+- Assets/CrazyTree_meshes/CrazyTree_LOD2.mesh
+- Assets/FloatingTree_meshes/Floating Tree_LOD1.mesh
+- Assets/CrazyTree_meshes/CrazyTree_LOD1.mesh
+- Assets/FloatingTree_meshes/Floating Tree_LOD2.mesh
+- Assets/CavernTree_meshes/TunnelTree_1_LOD3.mesh
+Dependencies: []

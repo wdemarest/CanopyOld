@@ -1,0 +1,31 @@
+ManifestFileVersion: 0
+CRC: 2168299755
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: e3281b2b5221ff85cafec7d76ba5879b
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 7859cd501ea75098bcf7e53f1b477c26
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+Assets:
+- Assets/_EffectExamples/Weapon Effects/Textures/StoneAlbedo.tif
+- Assets/_EffectExamples/Fire & Explosion Effects/Textures/Lightning.tif
+- Assets/_EffectExamples/Water Effects/Textures/WaterNormal.tif
+- Assets/_EffectExamples/Fire & Explosion Effects/Textures/FireExplosion.tif
+- Assets/_EffectExamples/Misc Effects/Textures/CandleFlame.tif
+- Assets/_EffectExamples/Fire & Explosion Effects/Textures/ExplosionEmission.tif
+- Assets/_EffectExamples/Fire & Explosion Effects/Textures/SphereNormal.tif
+- Assets/_EffectExamples/Fire & Explosion Effects/Textures/EnergyEffect.tif
+- Assets/_EffectExamples/Weapon Effects/Textures/StoneNormal.tif
+- Assets/_EffectExamples/Fire & Explosion Effects/Textures/shockwave.tif
+- Assets/_EffectExamples/Magic Effects/Textures/IceCurvature.tif
+- Assets/_EffectExamples/Fire & Explosion Effects/Textures/Explosion.tif
+- Assets/_EffectExamples/Weapon Effects/Textures/StreamNormal.tif
+- Assets/_EffectExamples/Fire & Explosion Effects/Textures/LightningTrail.tif
+- Assets/_EffectExamples/Fire & Explosion Effects/Textures/SmokePuff01.tif
+- Assets/_EffectExamples/Magic Effects/Textures/IceNormals.tif
+Dependencies: []

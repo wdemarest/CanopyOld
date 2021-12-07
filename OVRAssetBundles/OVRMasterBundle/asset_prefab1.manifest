@@ -1,0 +1,88 @@
+ManifestFileVersion: 0
+CRC: 4008585749
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: b614fe546c8c1231a806ebfe63250bff
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 1e1c9d270fd07563448d4ef062076cd5
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 54
+  Script: {instanceID: 0}
+- Class: 64
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 82
+  Script: {instanceID: 0}
+- Class: 83
+  Script: {instanceID: 0}
+- Class: 90
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 108
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: b2bc4b642d128a847a75d70342636749, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 32e317a4e0b628a47bbc16a17e69c498, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 29dc7a681e1d0e34eb7036ebb7cca08d, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 3150e35a6d9c6254d9f88069929dc122, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 9541d86e2fd84c1d9990edf0852d74ab, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 197385aed29837843b57d7f46648b20c, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 136
+  Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
+  Script: {instanceID: 0}
+- Class: 205
+  Script: {instanceID: 0}
+- Class: 222
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
+Assets:
+- Assets/Prefabs/Trees/CavernTree.prefab
+- Assets/Prefabs/Vase.prefab
+- Assets/Prefabs/Turret.prefab
+- Assets/Prefabs/BiomeAppearParticles.prefab
+- Assets/_volcanic rocks/prefabs/volcanic rock 3.prefab
+- Assets/Prefabs/FruitPickup.prefab
+- Assets/Prefabs/Carrier.prefab
+Dependencies:
+- C:/Users/willd/Unity Projects/Canopy/OVRAssetBundles/OVRMasterBundle/asset_fbx0
+- C:/Users/willd/Unity Projects/Canopy/OVRAssetBundles/OVRMasterBundle/asset_mat0
+- C:/Users/willd/Unity Projects/Canopy/OVRAssetBundles/OVRMasterBundle/asset_mat1
+- C:/Users/willd/Unity Projects/Canopy/OVRAssetBundles/OVRMasterBundle/asset_mesh0
+- C:/Users/willd/Unity Projects/Canopy/OVRAssetBundles/OVRMasterBundle/asset_prefab0
+- C:/Users/willd/Unity Projects/Canopy/OVRAssetBundles/OVRMasterBundle/asset_resources
+- C:/Users/willd/Unity Projects/Canopy/OVRAssetBundles/OVRMasterBundle/asset_wav0
+- C:/Users/willd/Unity Projects/Canopy/OVRAssetBundles/OVRMasterBundle/asset_wav1

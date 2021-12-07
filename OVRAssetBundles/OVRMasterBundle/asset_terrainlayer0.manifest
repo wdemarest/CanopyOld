@@ -1,0 +1,21 @@
+ManifestFileVersion: 0
+CRC: 2923544154
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 035e20de96ae7dd5f266f191dee16bd1
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: e870fe55c515b71bfbc233cfbec83308
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 1953259897
+  Script: {instanceID: 0}
+Assets:
+- Assets/NewLayer.terrainlayer
+- Assets/Texture/Abyss.terrainlayer
+Dependencies:
+- C:/Users/willd/Unity Projects/Canopy/OVRAssetBundles/OVRMasterBundle/asset_png1
+- C:/Users/willd/Unity Projects/Canopy/OVRAssetBundles/OVRMasterBundle/asset_png3

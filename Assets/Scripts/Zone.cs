@@ -30,6 +30,11 @@ public class Zone : MonoBehaviour
 
     void Update()
     {
+        if( !biome.active )
+        {
+            biome.ReportDistance(0,0);
+            return;
+        }
         CapsuleCollider[] capsuleList = GetComponentsInChildren<CapsuleCollider>();
         CapsuleCollider capsule = capsuleList[0];
 

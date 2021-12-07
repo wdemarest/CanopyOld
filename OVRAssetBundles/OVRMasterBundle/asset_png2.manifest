@@ -1,0 +1,45 @@
+ManifestFileVersion: 0
+CRC: 1661140408
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: d353e06fb541b64fd9e1c70dbaea3c52
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 7859cd501ea75098bcf7e53f1b477c26
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+Assets:
+- Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_49.png
+- Assets/_Mech_Constructor_Vehicles/Materials/MC_Vehicles_Normal_FIN.png
+- Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_1.png
+- Assets/Mtree/Textures/Bark/Bark_Damaged_C.png
+- Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_24.png
+- Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise256px/LDR_LLL1_7.png
+- Assets/Texture/Mushroom/Material _40_Base_color.png
+- Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_25.png
+- Assets/CrazyTree_meshes/CrazyTree_billboard.png
+- Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_27.png
+- Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_15.png
+- Assets/Texture/Bungalo/DefaultMaterial_Metallic.png
+- Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_5.png
+- Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_59.png
+- Assets/_FallingLeavesVFX/Textures/TX_FallingLeaves-Summer-Rotation3.png
+- Assets/Pottery/textures/normal2.png
+- Assets/_FantasyPlants2/Textures/GlobularPlant_4_5_6_gloss.png
+- Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_13.png
+- Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_38.png
+- Assets/_Smoke & Ember FX/Textures/smoke_fadeout.png
+- Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_62.png
+- Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise256px/LDR_LLL1_1.png
+- Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_28.png
+- Assets/_EffectExamples/Misc Effects/Textures/Ramp01.png
+- Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_43.png
+- Assets/_EffectExamples/Fire & Explosion Effects/Textures/ramp01.png
+- Assets/Pottery/textures/texture_vase.png
+- Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_12.png
+- Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_32.png
+- Packages/com.unity.postprocessing/PostProcessing/Textures/BlueNoise64px/LDR_LLL1_47.png
+Dependencies: []
