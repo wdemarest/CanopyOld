@@ -8,6 +8,7 @@ public class EnvironmentManager : MonoBehaviour
     public Head head { get { return headObject.GetComponent<Head>(); } }
 
     Dictionary<Biome, bool> biomeList = new Dictionary<Biome, bool>();
+    public bool showFog = true;
 
     [SerializeField] public Biome defaultBiomeForFog;
 
@@ -18,6 +19,9 @@ public class EnvironmentManager : MonoBehaviour
 
     Color fogTargetColor = Color.white;
     float fogTargetDensity = 0.01f;
+
+    float fogEaseTimer = 0;
+    float fogEaseDensity = 0;
 
     Biome lastValidBiome = null;
 
@@ -31,6 +35,21 @@ public class EnvironmentManager : MonoBehaviour
     void Start()
     {
         ClearBiomeTracking();
+    }
+
+    public void SetFogEase(float duration, float density)
+    {
+        fogEaseTimer = duration;
+        fogEaseDensity = density;
+    }
+
+    void ManageFogEase(ref float fogTargetDensity)
+    {
+        if (fogEaseTimer > 0)
+        {
+            fogEaseTimer -= Time.deltaTime;
+            fogTargetDensity = fogEaseDensity;
+        }
     }
 
     void FogCalc(Biome biome, float pct, float contribution, ref Color fogColor, ref float fogDensity)
@@ -66,6 +85,8 @@ public class EnvironmentManager : MonoBehaviour
         fogTargetColor.b = 0;
         fogTargetDensity = 0;
         FogCalc(biome, pct, 1, ref fogTargetColor, ref fogTargetDensity);
+
+        ManageFogEase(ref fogTargetDensity);
 
         void lerpTowards(ref float c, float t, float r)
         {
@@ -129,7 +150,7 @@ public class EnvironmentManager : MonoBehaviour
         float darknessWhenOvercast = 0.50f;
         pct = pct - (pct * darknessWhenOvercast * overcast);
 
-        GameObject.Find("Sun").GetComponent<Sun>().SetIntensity(pct);
+        GameObject.Find("Sun").GetComponent<Sun>().SetIntensity(1); // pct);
 
         bool useLerp = true;
 
@@ -221,6 +242,7 @@ public class EnvironmentManager : MonoBehaviour
         ManageFog(ref pct, ref fogColor, ref fogDensity);
         ManageAcidCloud(ref pct, ref fogColor, ref fogDensity);  // must be called after manage fog because it overrides some settings.
 
+        RenderSettings.fog = showFog;
         RenderSettings.fogColor = fogColor;
         RenderSettings.fogDensity = fogDensity; // 0.02f;
 

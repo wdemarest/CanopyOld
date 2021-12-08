@@ -9,9 +9,9 @@ public class WaypointTracer : MonoBehaviour
     {
         return GameObject.Find(name).GetComponent<Waypoint>();
     }
-    public void wpSet(string name, Func<Waypoint, bool> testComplete)
+    public void wpSet(string name, Func<Waypoint, bool> testNext)
     {
-        wp(name).testComplete = testComplete;
+        wp(name).testNext = testNext;
     }
 }
 
@@ -19,8 +19,9 @@ public class Waypoint : MonoBehaviour
 {
     public GameObject connectedTo;
     public GameObject next;
-    public Func<Waypoint, bool> testComplete;
+    public Func<Waypoint, bool> testNext;
 
+    public Vector3 pos { get { return gameObject.GetComponent<Transform>().position; } }
     public GameObject headObject { get { return GameObject.Find("Head"); } }
     public Vector3 headPos { get { return headObject.GetComponent<Transform>().position; } }
     public GameObject parent { get { Transform t = gameObject.GetComponent<Transform>(); return t.parent==null ? null : t.parent.gameObject; } }

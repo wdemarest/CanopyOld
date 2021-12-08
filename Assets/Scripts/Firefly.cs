@@ -3,10 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Firefly : Item
+public class Firefly : MonoBehaviour
 {
     public GameObject startingWaypoint;
     public Waypoint waypoint;
+
+    public GameObject headObject { get { return GameObject.Find("Head"); } }
+    public Head head { get { return headObject.GetComponent<Head>(); } }
 
     Vector3 position {
         get { return gameObject.GetComponent<Transform>().position; }
@@ -23,9 +26,14 @@ public class Firefly : Item
     public float vAngleRate = 0.2f;
     public float radius = 1;
 
-    void Start()
+    public void SetStartingWaypoint()
     {
         waypoint = startingWaypoint.GetComponent<Waypoint>();
+    }
+
+    void Start()
+    {
+        SetStartingWaypoint();
     }
 
     void Update()
@@ -46,7 +54,7 @@ public class Firefly : Item
 
         if( dist < 0 )
         {
-            radius = Mathf.Max(0.1f, radius - Time.deltaTime/2);
+            radius = Mathf.Max(0.3f, radius - Time.deltaTime/2);
         }
         else
         {
@@ -60,7 +68,7 @@ public class Firefly : Item
             Mathf.Sin(vAngle) * radius,
             Mathf.Sin(hAngle+vAngle) * radius
         );
-
+/*
         if (UnityEngine.Random.Range(0, 60 / Time.deltaTime) < 30)
         {
             float m = UnityEngine.Random.Range(0, 100) < 50 ? 1.3f : (1f / 1.3f);
@@ -75,7 +83,7 @@ public class Firefly : Item
         }
         hAngleRate += UnityEngine.Random.Range(-0.2f/4f, 0.2f/4f) * Time.deltaTime;
         vAngleRate += UnityEngine.Random.Range(-0.2f/4f, 0.2f/4f) * Time.deltaTime;
-
+*/
         position = center + offset;
     }
 }

@@ -53,7 +53,10 @@ public class MusicManager : MonoBehaviour
             {
                 music.priority = 0;
                 music.volume = 1;
-                music.Play();
+                if (!music.isPlaying)
+                {
+                    music.Play();
+                }
                 const float musicRepeatDelay = 10;
                 musicDelay = musicRepeatDelay;
             }

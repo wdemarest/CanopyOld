@@ -50,20 +50,18 @@ public class Head : MonoBehaviour
     GameProgress gameProgress { get { return GameObject.Find("GameProgress").GetComponent<GameProgress>(); } }
     public bool inAbyss { get { return transform.position.y < abyssY; } }
 
-    // Start is called before the first frame update
     void Start()
     {
         SC = GetComponent<SphereCollider>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (PlayerRB.velocity.magnitude > 13) { PlayerRB.velocity *= 13 / PlayerRB.velocity.magnitude; }
 
         PlayerRB.useGravity = !(gravGrace || levitation);
 
-        if(inAbyss)
+        if (inAbyss)
         {
             takeDamage(abyssDamage);
             JumpSave();
@@ -190,7 +188,7 @@ public class Head : MonoBehaviour
 
     public void Deposit(Vase vase)
     {
-        gameProgress.Deposit(vase, heldScore);
+        vase.Deposit(heldScore);
         heldScore = 0;
         HealToFull();
     }
@@ -206,7 +204,10 @@ public class Head : MonoBehaviour
     {
         if (collision.collider.gameObject.layer == LayerMask.NameToLayer("GrabbableTerrain"))
         {
-            headBonk.Play();
+            if (!headBonk.isPlaying)
+            {
+                headBonk.Play();
+            }
         }
     }
 

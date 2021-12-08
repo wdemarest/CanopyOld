@@ -25,7 +25,8 @@ public class GameProgress : MonoBehaviour
     [SerializeField] GameObject playerHomeStart;
     [SerializeField] GameObject playerCinderStart;
 
-    [SerializeField] int depositedScore = 0;
+    public Vase vaseLastTouched;
+
     private int gameStage = -1;
 
     [SerializeField] float biomeMoveTime = 5;
@@ -167,14 +168,7 @@ public class GameProgress : MonoBehaviour
         Time.fixedDeltaTime = 0.02f * Time.timeScale;
     }
     public bool IsPaused {  get { return Time.timeScale == 0.0f; } }
-/*
-    public GameObject FindSillyCinderGameObject()
-    {
-        Scene scene = SceneManager.GetActiveScene();
-        GameObject[] rootGameObjectList = scene.GetRootGameObjects();
-        return rootGameObjectList[0].transform.Find("CinderBiome").gameObject;
-    }
-*/
+
     public void RespawnPlayer()
     {
         GameObject.Find("EnvironmentManager").GetComponent<EnvironmentManager>().ClearBiomeTracking();
@@ -216,12 +210,6 @@ public class GameProgress : MonoBehaviour
         GameObject.Find("HunterManager").GetComponent<HunterManager>().SetIntervalStandard( stage.hunterInterval );
     }
 
-    public void Deposit(Vase vase, int points)
-    {
-        vase.NotifyOfDeposit(points);
-        depositedScore += points;
-    }
-
     public void AdvanceGameStage(bool instant=false)
     {
         if(gameStage+1 >= stageList.Count)
@@ -231,27 +219,13 @@ public class GameProgress : MonoBehaviour
         }
         gameStage++;
         Debug.Log("Stage=" + gameStage);
-
-        if (gameStage > 0)
-        {
-            GameObject.Find("Head").GetComponent<Head>().abyssY = 60;
-            if (cinderBiomeObject != null)
-            {
-                cinderBiomeObject.GetComponent<Biome>().active = false;
-                cinderBiomeObject.active = false;   // must come second!
-            }
-            if ( head.inAbyss )
-            {
-                RespawnPlayer();
-            }
-        }
-        depositedScore = 0;
-        Vase vase = GameObject.Find("Vase").GetComponent<Vase>();
-        vase.Clear();
-
         Stage stage = stageList[gameStage];
-        GameObject vaseObject = GameObject.Find("Vase");
-        vaseObject.GetComponent<Vase>().SetColor(stage.vaseColor);
+
+        if (vaseLastTouched != null && vaseLastTouched.depositedScore != 0)
+        {
+            vaseLastTouched.Clear();
+            vaseLastTouched.SetColor(stage.vaseColor);
+        }
 
         BiomeSetStage(stage);
 
@@ -260,15 +234,24 @@ public class GameProgress : MonoBehaviour
             stage.biome.PlayAppearSound();
             stage.biome.active = true;
             stage.biome.animations.SetBool("RiseBool", true);
+            GameObject.Find("Home").GetComponent<Animator>().SetBool("RiseBool", true);
             if (instant)
             {
                 Debug.Log("Instant rez " + stage.biome.name);
                 stage.biome.animations.speed = 1000;
             }
+            if( gameStage == 1 )
+            {
+                GameObject.Find("EnvironmentManager").GetComponent<EnvironmentManager>().SetFogEase(12, 0.01f);
+            }
         }
 
     }
 
+    public int GetGameStage()
+    {
+        return gameStage;
+    }
 
     void Update()
     {
@@ -277,16 +260,21 @@ public class GameProgress : MonoBehaviour
             AdvanceGameStage(true);
             return;
         }
-        Vase vase = GameObject.Find("Vase").GetComponent<Vase>();
-        Debug.Assert(vase != null);
         Debug.Assert(stageList != null);
         Debug.Assert(gameStage >= 0 && gameStage < stageList.Count);
         if (
-            !vase.IsAnimatingScore &&
+            vaseLastTouched != null &&
+            !vaseLastTouched.IsAnimatingScore &&
             gameStage < stageList.Count - 1 &&
-            depositedScore >= stageList[gameStage + 1].costToAdvance)
+            vaseLastTouched.depositedScore >= stageList[gameStage + 1].costToAdvance)
         {
             AdvanceGameStage();
         }
+
+//        const float abyssDeathY = 60;
+//        if (head.GetComponent<Transform>().position.y > abyssDeathY + 10)
+//        {
+//            head.abyssY = abyssDeathY;
+//        }
     }
 }

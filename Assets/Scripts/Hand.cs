@@ -34,8 +34,6 @@ public class Hand : MonoBehaviour
 
     public Menu menu { get { return GameObject.Find("Menu").GetComponent<Menu>(); } }
 
-    Vector3 lastPosition;
-    Vector3 lastPlayerPosition;
     float triggerAxis = 0;
     float gripAxis = 0;
     bool thrusterOutPlayed;
@@ -108,6 +106,7 @@ public class Hand : MonoBehaviour
             return;
         }
 
+        // GATHER INPUT
 
         //targetDevice.TryGetFeatureValue(CommonUsages.grip, out float gripAxis);
         targetDevice.TryGetFeatureValue(CommonUsages.trigger, out triggerAxis);
@@ -122,6 +121,8 @@ public class Hand : MonoBehaviour
         Debug.Assert(menu != null);
         menu.ReportControllerState(handNum, primaryButton, secondaryButton, menuButton);
 
+        // INTERPRET INPUT
+
         if (handNum == 1) {
             head.levitation = secondaryButton;
         }
@@ -135,12 +136,20 @@ public class Hand : MonoBehaviour
             jumpSaving = secondaryButton;
         }
 
+        // THRUSTERS
+
         if((primaryButton && !head.thrustRanOut) != thruster.isPlaying)
         {
             if (primaryButton)
             {
-                thruster.Play();
-                thrusterIgnite.Play();
+                if (!thruster.isPlaying)
+                {
+                    thruster.Play();
+                }
+                if (!thrusterIgnite.isPlaying)
+                {
+                    thrusterIgnite.Play();
+                }
                 thruster.time = head.thrustMax-head.thrustRemaining;
             }
             else
@@ -174,19 +183,29 @@ public class Hand : MonoBehaviour
             head.usingThrust = true;
         }
 
+        // POSITION AND ROTATION
+
         transform.localPosition = myPos;
         transform.localRotation = myRot;
 
-        
+        // REPOSITION DUE TO GRAB        
 
         if (grabbed && !grabOverridden)
         {
+            // Original Code.
             grabMove = grabPos - transform.position;
             PlayerT.position += grabMove;
+
+            // Will Graboffset
+            //grabOffset += PlayerT.position - lastPlayerTargetPos;
+            //grabMove = (grabPos + grabOffset) - transform.position;
+            //PlayerRB.MovePosition(PlayerT.position+grabMove);
         }
 
-        
+
         interior = CheckInterior();
+
+        // GUN ACTIVATION
 
         if (gunMode != GripDown())
         {
@@ -205,6 +224,8 @@ public class Hand : MonoBehaviour
             }
         }
 
+        // GUNS
+
         if (TriggerDown() && !lastTriggerDown && gunMode)
         {
             Instantiate(Projectile, transform.position, transform.rotation);
@@ -213,29 +234,31 @@ public class Hand : MonoBehaviour
         }
 
         //GRABBING
-        if (TriggerDown() && !gunMode && (touchingBranches > 0 || interior) && !grabOverridden)
+
+        bool colliding = (touchingBranches > 0 || interior);
+        bool shouldBeGrabbed = TriggerDown() && !gunMode && (grabbed || colliding) && !grabOverridden;
+        if (shouldBeGrabbed)
         {
             if (!grabbed) {
-
                 //LogText.text = ""+PlayerRB.velocity.magnitude;
-
                 grab.Play();
-
                 Vibrate(PlayerRB.velocity.magnitude/20, 0.05f);
-
                 GetComponent<Renderer>().material = grabbedMat;
-                
                 if (grabPos == new Vector3(0, 0, 0))
                 {
                     grabPos = transform.position;
                     //Debug.Log("GrabPos " + grabPos);
                 }
-                
                 OtherHand.GetComponent<Hand>().grabOverridden = true;
             }
 
-
             grabbed = true;
+
+            // Will Graboffset
+            //lastPlayerTargetPos = PlayerT.position;
+
+            PlayerRB.velocity = Vector3.zero;
+            PlayerRB.angularVelocity = Vector3.zero;
 
             PlayerRB.constraints |= RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
         }
@@ -246,42 +269,42 @@ public class Hand : MonoBehaviour
 
             PlayerRB.constraints &= ~(RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ);
 
+            // IMPART LEAPING VELOCITY AFTER GRAB RELEASE
             if (grabbed)
             {
                 GetComponent<Renderer>().material = defaultMat;
 
                 PlayerRB.velocity = SwingVel();
             }
-
             grabbed = false;
-
-             
         }
 
-        if (TriggerDown())
+        // RESTORE GRAVITY AFTER RESET OR TAIL SAVE
+
+        if (TriggerDown() && head.gravGrace)
         {
             head.gravGrace = false;
         }
 
-        //if (!(TriggerDown() && (touchingBranches > 0 || interior)))
+        // RESET GRAB CAPABILITY
+
         if(!TriggerDown())
         {
             grabOverridden = false;
         }
+
+        // VIBRATION MANAGEMENT
 
         if (vibDurationRemaining <= 0f)
         {
             OVRInput.SetControllerVibration(0, 0, (handNum == 1 ? OVRInput.Controller.LTouch : OVRInput.Controller.RTouch));
             vibDurationRemaining = 0f;
         }
-
         if (vibDurationRemaining > 0f)
         {
             vibDurationRemaining -= Time.deltaTime;
         }
 
-        lastPosition = transform.position;
-        lastPlayerPosition = PlayerT.position;
         lastTriggerDown = TriggerDown();
     }
 
@@ -298,14 +321,9 @@ public class Hand : MonoBehaviour
     bool CheckInterior()
     {
         Vector3 castDirection = GetComponent<Transform>().position - head.GetComponent<Transform>().position;
-
         float length = castDirection.magnitude;
-
         int layerMask = 1 << 9;
-
         return Physics.Raycast(head.GetComponent<Transform>().position, castDirection.normalized, length, layerMask);
-
-        //return Physics.Raycast(new Vector3(-1, 10, 0), new Vector3(1, 10, 0), 100);
     }
     
     Vector3 SwingVel()

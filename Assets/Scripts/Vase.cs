@@ -9,6 +9,7 @@ public class Vase : MonoBehaviour
     [SerializeField] int depositTextValue = 0;
     public Renderer renderer;
 
+    [SerializeField] public int depositedScore = 0;
     int depositsQueued = 0;
 
     [SerializeField] AudioSource depositSound;
@@ -17,17 +18,20 @@ public class Vase : MonoBehaviour
 
     void Start()
     {
+        Clear();
+    }
+    public void Deposit(int points)
+    {
+        GameObject.Find("GameProgress").GetComponent<GameProgress>().vaseLastTouched = this;
+        depositsQueued += points;
+        depositedScore += points;
     }
 
     public void Clear()
     {
         depositTextValue = 0;
         depositsQueued = 0;
-    }
-
-    public void NotifyOfDeposit(int points)
-    {
-        depositsQueued += points;
+        depositedScore = 0;
     }
 
     public void SetColor(Color color)
